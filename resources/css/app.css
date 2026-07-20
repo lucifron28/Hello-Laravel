@@ -1,9 +1,165 @@
 @import 'tailwindcss';
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-heading: 'Syne', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    --color-brand-cyan: #00f0ff;
+    --color-brand-blue: #3b82f6;
+    --color-brand-purple: #8b5cf6;
+    --color-brand-magenta: #ec4899;
+    --color-dark-bg: #07090e;
+    --color-dark-card: rgba(15, 23, 42, 0.65);
+    --color-dark-border: rgba(255, 255, 255, 0.08);
+}
+
+
+
+/* Glassmorphism effects */
+.glass-panel {
+    background: rgba(13, 17, 28, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-panel-hover {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-panel-hover:hover {
+    border-color: rgba(0, 240, 255, 0.3);
+    box-shadow: 0 0 25px rgba(0, 240, 255, 0.12);
+    transform: translateY(-2px);
+}
+
+.glass-pill {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Glow Text & Elements */
+.glow-cyan {
+    text-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
+}
+
+.glow-magenta {
+    text-shadow: 0 0 15px rgba(236, 72, 153, 0.6);
+}
+
+.glow-box-cyan {
+    box-shadow: 0 0 30px rgba(0, 240, 255, 0.25);
+}
+
+/* Background Ambient Lighting */
+.bg-ambient-light {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.ambient-blob-1 {
+    position: absolute;
+    top: -10%;
+    left: 20%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(0, 240, 255, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+    filter: blur(80px);
+    animation: blob-float 18s ease-in-out infinite alternate;
+}
+
+.ambient-blob-2 {
+    position: absolute;
+    bottom: 10%;
+    right: 15%;
+    width: 650px;
+    height: 650px;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+    filter: blur(90px);
+    animation: blob-float 22s ease-in-out infinite alternate-reverse;
+}
+
+.ambient-blob-3 {
+    position: absolute;
+    top: 40%;
+    left: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(236, 72, 153, 0.12) 0%, rgba(0, 0, 0, 0) 70%);
+    filter: blur(80px);
+    animation: blob-float 15s ease-in-out infinite alternate;
+}
+
+@keyframes blob-float {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+    50% {
+        transform: translate(40px, -60px) scale(1.1);
+    }
+    100% {
+        transform: translate(-30px, 40px) scale(0.95);
+    }
+}
+
+/* Equalizer Bars Animation */
+.equalizer-container {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 20px;
+}
+
+.eq-bar {
+    width: 3px;
+    background: linear-gradient(to top, #00f0ff, #8b5cf6);
+    border-radius: 2px;
+    animation: eq-bounce 1.2s ease-in-out infinite alternate;
+}
+
+.eq-bar:nth-child(1) { height: 40%; animation-delay: 0.1s; }
+.eq-bar:nth-child(2) { height: 90%; animation-delay: 0.3s; }
+.eq-bar:nth-child(3) { height: 60%; animation-delay: 0.2s; }
+.eq-bar:nth-child(4) { height: 100%; animation-delay: 0.5s; }
+.eq-bar:nth-child(5) { height: 30%; animation-delay: 0.4s; }
+
+@keyframes eq-bounce {
+    0% { height: 20%; }
+    100% { height: 100%; }
+}
+
+/* Lyric Lines Interactive Styling */
+.lyric-line {
+    position: relative;
+    transition: all 0.25s ease;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+.lyric-line:hover {
+    background: rgba(255, 255, 255, 0.04);
+    color: #ffffff;
+}
+
+.lyric-line.active-line {
+    background: linear-gradient(90deg, rgba(0, 240, 255, 0.15) 0%, rgba(59, 130, 246, 0.05) 100%);
+    border-left: 3px solid #00f0ff;
+    color: #ffffff !important;
+    font-weight: 600;
+    text-shadow: 0 0 12px rgba(0, 240, 255, 0.4);
+    padding-left: 1.25rem;
+}
+
+.lyric-line.highlight-search {
+    background: rgba(236, 72, 153, 0.2);
+    border-bottom: 2px solid #ec4899;
 }
