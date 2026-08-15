@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -14,3 +15,5 @@ Route::get('/about', function () {
 Route::get('contact', function () {
     return view('contact');
 });
+
+Route::resource('products', ProductController::class);
