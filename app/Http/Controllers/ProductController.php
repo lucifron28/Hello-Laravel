@@ -5,13 +5,15 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProductRequest;
 use App\Models\Product;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
 class ProductController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $products = Product::query()->latest()->paginate(9);
+        $products = $request->user()->products()->latest()->paginate(9);
 
         return view('products.index', compact('products'));
     }
@@ -25,7 +27,7 @@ class ProductController extends Controller
 
     public function store(ProductRequest $request): RedirectResponse
     {
-        Product::create($request->validated());
+        $request->user()->products()->create($request->validated());
 
         return to_route('products.index')->with('status', 'Product created successfully.');
     }
@@ -37,11 +39,15 @@ class ProductController extends Controller
 
     public function edit(Product $product): View
     {
+        Gate::authorize('update', $product);
+
         return view('products.edit', compact('product'));
     }
 
     public function update(ProductRequest $request, Product $product): RedirectResponse
     {
+        Gate::authorize('update', $product);
+
         $product->update($request->validated());
 
         return to_route('products.show', $product)->with('status', 'Product updated successfully.');
@@ -49,6 +55,8 @@ class ProductController extends Controller
 
     public function destroy(Product $product): RedirectResponse
     {
+        Gate::authorize('delete', $product);
+
         $product->delete();
 
         return to_route('products.index')->with('status', 'Product deleted successfully.');

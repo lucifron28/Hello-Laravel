@@ -29,7 +29,9 @@
 
         <div class="card-actions mt-2 justify-end">
             <a href="{{ route('products.show', $product) }}" class="btn btn-sm btn-primary">View</a>
-            <a href="{{ route('products.edit', $product) }}" class="btn btn-sm btn-outline">Edit</a>
+            @can('update', $product)
+                <a href="{{ route('products.edit', $product) }}" class="btn btn-sm btn-outline">Edit</a>
+            @endcan
         </div>
     </div>
 </article>

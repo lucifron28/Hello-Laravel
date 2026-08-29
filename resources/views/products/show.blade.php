@@ -17,7 +17,9 @@
                 </div>
                 <p class="mt-3 max-w-2xl leading-7 text-slate-300">{{ $product->description ?: 'No description added yet.' }}</p>
             </div>
-            <a href="{{ route('products.edit', $product) }}" class="btn btn-outline shrink-0">Edit product</a>
+            @can('update', $product)
+                <a href="{{ route('products.edit', $product) }}" class="btn btn-outline shrink-0">Edit product</a>
+            @endcan
         </div>
 
         <div class="grid gap-4 border-y border-white/10 py-6 sm:grid-cols-2">
@@ -33,11 +35,13 @@
 
         <div class="flex flex-wrap items-center justify-between gap-4">
             <p class="text-sm text-slate-500">Added {{ $product->created_at->format('M j, Y') }}</p>
-            <form method="POST" action="{{ route('products.destroy', $product) }}" onsubmit="return confirm('Delete this product?')">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-error btn-outline">Delete product</button>
-            </form>
+            @can('delete', $product)
+                <form method="POST" action="{{ route('products.destroy', $product) }}" onsubmit="return confirm('Delete this product?')">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-error btn-outline">Delete product</button>
+                </form>
+            @endcan
         </div>
     </x-card>
 </x-layout>

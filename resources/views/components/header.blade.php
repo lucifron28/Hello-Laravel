@@ -5,11 +5,27 @@
             <span>Hybrid Theory</span>
         </a>
         
-        <nav class="flex items-center gap-1 sm:gap-2">
-            <x-nav-link href="/" :active="request()->is('/')">Home</x-nav-link>
-            <x-nav-link href="/about" :active="request()->is('about')">About</x-nav-link>
-            <x-nav-link href="/contact" :active="request()->is('contact')">Contact</x-nav-link>
-            <x-nav-link href="/products" :active="request()->is('products*')">Products</x-nav-link>
+        <nav class="flex flex-wrap items-center justify-end gap-1 sm:gap-2">
+            <x-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">Home</x-nav-link>
+            <x-nav-link href="{{ url('/about') }}" :active="request()->is('about')">About</x-nav-link>
+            <x-nav-link href="{{ url('/contact') }}" :active="request()->is('contact')">Contact</x-nav-link>
+            <x-nav-link href="{{ route('products.index') }}" :active="request()->is('products*')">Products</x-nav-link>
+
+            @guest
+                <x-nav-link href="{{ route('login') }}" :active="request()->routeIs('login')">Login</x-nav-link>
+                <x-nav-link href="{{ route('register') }}" :active="request()->routeIs('register')">Register</x-nav-link>
+            @endguest
+
+            @auth
+                @can('view-admin')
+                    <x-nav-link href="{{ route('admin') }}" :active="request()->routeIs('admin')">Admin</x-nav-link>
+                @endcan
+
+                <form method="POST" action="{{ route('logout') }}" class="ml-1">
+                    @csrf
+                    <button type="submit" class="btn btn-ghost btn-sm text-slate-300 hover:text-white">Logout</button>
+                </form>
+            @endauth
         </nav>
     </div>
 </header>
